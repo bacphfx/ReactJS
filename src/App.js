@@ -3,7 +3,6 @@ import "./App.css";
 import { STAFFS } from "./shared/staffs";
 import { Component } from "react";
 import StaffList from "./components/StaffListComponent";
-import Setting from "./components/settingComponet";
 
 class App extends Component {
   constructor(props) {
@@ -23,8 +22,6 @@ class App extends Component {
         </Navbar>
 
         <StaffList staffs={this.state.staffs} />
-
-        {/* <Setting /> */}
       </div>
     );
   }

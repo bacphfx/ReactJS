@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardTitle, CardText, Form } from "reactstrap";
+import { Card, CardTitle, CardText, Form, Label, Button } from "reactstrap";
 import dateFormat from "dateformat";
 import "../";
 
@@ -11,7 +11,6 @@ class StaffList extends Component {
 
   onStaffSelect = function (staff) {
     this.setState({ selectedStaff: staff });
-    document.getElementById(`${staff.id}`).classList.add("active");
   };
 
   renderStaffDetail = function (staff) {
@@ -38,31 +37,36 @@ class StaffList extends Component {
     }
   };
 
-  setting = function () {
-    return (
-      <Form className="col-6 col-sm-4 col-md-3" id="form">
-        <hr></hr>
-        <select className="form-select" id="num-input">
-          <option>Select number collum/sheet</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>6</option>
-        </select>
-      </Form>
-    );
-  };
+  // setting = function () {
+  //   return (
+  //     <div>
+  //       <Form className="col-6 col-sm-4 col-md-3" id="form">
+  //         <hr></hr>
+  //         <Label>Select collums/sheet</Label>
+  //         <select className="form-select" id="collum-input">
+  //           <option>Select</option>
+  //           <option>2</option>
+  //           <option>3</option>
+  //           <option>4</option>
+  //           <option>6</option>
+  //         </select>
+  //       </Form>
+  //       <Button id="submit-button" className="mt-3">
+  //         Submit
+  //       </Button>
+  //     </div>
+  //   );
+  // };
 
   render() {
     const staffList = this.props.staffs.map((staff) => {
-      // const numSetting = document.getElementById("num-input").value || 1;
       return (
-        <div
-          key={staff.id}
-          id={staff.id}
-          className="col-12 col-sm-6 col-md-4 mt-3"
-        >
-          <Card onClick={() => this.onStaffSelect(staff)}>
+        <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
+          <Card
+            id={staff.id}
+            className="all-card"
+            onClick={() => this.onStaffSelect(staff)}
+          >
             <CardTitle>{staff.name}</CardTitle>
           </Card>
         </div>
@@ -76,7 +80,7 @@ class StaffList extends Component {
         <div className="row">
           {this.renderStaffDetail(this.state.selectedStaff)}
         </div>
-        <div className="row">{this.setting()}</div>
+        {/* <div className="row">{this.setting()}</div> */}
       </div>
     );
   }
