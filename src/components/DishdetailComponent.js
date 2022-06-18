@@ -9,40 +9,67 @@ import {
 } from "reactstrap";
 
 const RenderDish = function (dish) {
-  return (
-    <div className="col-12 col-md-5 m-1">
-      <Card>
-        <CardBody>
-          <CardImg width="100%" src={dish.image} alt={dish.name} />
-          <CardImgOverlay>
+  if (dish != null) {
+    return (
+      <div>
+        <Card>
+          <CardBody>
+            <CardImg width="100%" src={dish.image} alt={dish.name} />
             <CardTitle>{dish.name}</CardTitle>
             <CardText>{dish.description}</CardText>
-          </CardImgOverlay>
-        </CardBody>
-      </Card>
-    </div>
-  );
+          </CardBody>
+        </Card>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 };
 
 const RenderComments = function (dish) {
-  return (
-    <div className="col-12 col-md-5 m-1">
-      <h4>Comment</h4>
-    </div>
-  );
+  if (dish != null) {
+    console.log(dish);
+    const dishComment = dish.comments.map((x) => {
+      return (
+        <div key={x.id} className="mt-3">
+          <div>{x.comment}</div>
+          <div>
+            -- {x.author},{" "}
+            {new Intl.DateTimeFormat("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+            }).format(new Date(Date.parse(x.date)))}
+          </div>
+        </div>
+      );
+    });
+    return (
+      <div>
+        <h4>Comment</h4>
+        <div>{dishComment}</div>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 };
 
 class DishDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
+
   render() {
     return (
       <div className="container">
         <div className="row">
-          <RenderDish dish={this.props.dishes} />
-          <RenderComments />
+          <div className="col-12 col-md-5 m-1">
+            {RenderDish(this.props.dish)}
+          </div>
+          <div className="col-12 col-md-5 m-1">
+            {RenderComments(this.props.dish)}
+          </div>
         </div>
       </div>
     );
