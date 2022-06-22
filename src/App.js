@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import "./App.css";
 import Main from "./components/MainComponent";
-
-import StaffList from "./components/StaffListComponent";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    return <Main />;
+    return (
+      <BrowserRouter>
+        <div>
+          <Main />
+        </div>
+      </BrowserRouter>
+    );
   }
 }
 

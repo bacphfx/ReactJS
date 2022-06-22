@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
+import { STAFFS } from "../shared/staffs";
 import StaffList from "./StaffListComponent";
 import StaffDetail from "./StaffDetailComponent";
-import { STAFFS } from "../shared/staffs";
+import Header from "./HeaderComponent";
+import Footer from "./FooterComponent";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 class Main extends Component {
   constructor(props) {
@@ -18,11 +20,7 @@ class Main extends Component {
   render() {
     return (
       <div className="container">
-        <Navbar dark color="success">
-          <div className="container">
-            <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
-          </div>
-        </Navbar>
+        <Header />
         <StaffList
           staffs={this.state.staffs}
           onClick={(staffId) => this.onStaffSelect(staffId)}
@@ -34,8 +32,10 @@ class Main extends Component {
             )[0]
           }
         />
+        <Footer />
       </div>
     );
   }
 }
+
 export default Main;

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardTitle, CardText } from "reactstrap";
 import dateFormat from "dateformat";
 
-const RenderStaff = function (staff) {
+function RenderStaffDetail({ staff }) {
   return (
     <div className="col-12 col-sm-6 col-md-4">
       <Card>
@@ -17,13 +17,20 @@ const RenderStaff = function (staff) {
       </Card>
     </div>
   );
-};
+}
+
 const StaffDetail = (props) => {
-  return (
-    <div>
-      <RenderStaff staff={props.staff} />
-    </div>
-  );
+  if (props.staff != null) {
+    return (
+      <div className="container">
+        <div className="row">
+          <RenderStaffDetail staff={props.staff} />
+        </div>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 };
 
 export default StaffDetail;
