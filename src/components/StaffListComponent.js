@@ -1,10 +1,20 @@
 import React from "react";
-import { Card, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
-function RenderStaffList({ staff, onClick }) {
+function RenderStaffList({ staff }) {
   return (
-    <Card onClick={() => onClick(staff.id)}>
-      <CardTitle>{staff.name}</CardTitle>
+    <Card>
+      <Link to={`/staffs/${staff.id}`}>
+        <CardImg src={staff.image} />
+        <CardText className="text-center">{staff.name}</CardText>
+      </Link>
     </Card>
   );
 }
@@ -12,15 +22,25 @@ function RenderStaffList({ staff, onClick }) {
 const StaffList = (props) => {
   const staffList = props.staffs.map((staff) => {
     return (
-      <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
-        <RenderStaffList staff={staff} onClick={props.onClick} />
+      <div key={staff.id} className="col-6 col-sm-4 col-md-2 mt-3">
+        <RenderStaffList staff={staff} />
       </div>
     );
   });
   return (
-    <div>
+    <div className="container">
+      <div className="row">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/staffs"></Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>Nhân viên</BreadcrumbItem>
+        </Breadcrumb>
+        <div className="col-12">
+          <h3>Nhân viên</h3>
+        </div>
+      </div>
       <div className="row mb-5">{staffList}</div>
-      <h5 id="note">Bấm vào tên nhân viên để xem thông tin chi tiết</h5>
     </div>
   );
 };
