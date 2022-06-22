@@ -40,19 +40,18 @@ class Header extends Component {
             <Collapse isOpen={this.state.isNavOpen} navbar>
               <Nav navbar>
                 <NavItem>
-                  <NavLink className="nav-link" to="/stafflist">
-                    <span className="fa fa-info fa-lg"></span> Nhân viên
+                  <NavLink className="nav-link ml-5" to="/stafflist">
+                    <span className="fa fa-users fa-lg"></span> Nhân viên
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/departments">
-                    <span className="fa fa-list fa-lg"></span> Phòng ban
+                    <span className="fa fa-id-card-o fa-lg"></span> Phòng ban
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to="/salary">
-                    <span className="fa fa-address-card fa-lg"></span> Bảng
-                    lương
+                    <span className="fa fa-money fa-lg"></span> Bảng lương
                   </NavLink>
                 </NavItem>
               </Nav>
