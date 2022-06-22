@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { Card, CardHeader, CardText } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardText,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
 import { DEPARTMENTS } from "../shared/staffs";
+import { Link } from "react-router-dom";
 
 class Departments extends Component {
   constructor(props) {
@@ -22,6 +29,17 @@ class Departments extends Component {
     });
     return (
       <div className="container mb-5">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/departments"></Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>Phòng ban</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>Phòng ban</h3>
+          </div>
+        </div>
         <div className="row">{departmentsDetail}</div>
       </div>
     );

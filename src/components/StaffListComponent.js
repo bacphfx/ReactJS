@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardImg,
   CardText,
   Breadcrumb,
   BreadcrumbItem,
+  Form,
+  Input,
+  FormGroup,
+  Label,
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -27,6 +32,7 @@ const StaffList = (props) => {
       </div>
     );
   });
+  const [keyword] = useState("");
   return (
     <div className="container">
       <div className="row">
@@ -36,10 +42,24 @@ const StaffList = (props) => {
           </BreadcrumbItem>
           <BreadcrumbItem active>Nhân viên</BreadcrumbItem>
         </Breadcrumb>
+        <div className="container">
+          <Form className="pull-right">
+            <Button className="btn btn-primary pull-right">Seacrh</Button>
+            <FormGroup className="d-inline pull-right">
+              <Input
+                type="text"
+                name="keyword"
+                // onChange={(e) => setkeyword(e.target.value)}
+                placeholder="Nhập từ khóa để tìm kiếm"
+              />
+            </FormGroup>
+          </Form>
+        </div>
         <div className="col-12">
           <h3>Nhân viên</h3>
         </div>
       </div>
+
       <div className="row mb-5">{staffList}</div>
     </div>
   );
