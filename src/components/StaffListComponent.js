@@ -78,12 +78,6 @@ class StaffList extends Component {
       staff.name.toLowerCase().includes(this.state.keyword.toLowerCase())
     );
     this.setState({ staffSearched: searchResult });
-
-    return (
-      <div key={searchResult.id} className="col-6 col-sm-4 col-md-2 mt-3">
-        <RenderStaffList staff={searchResult} />
-      </div>
-    );
   }
   render() {
     // Nếu chưa thực hiện tìm kiếm

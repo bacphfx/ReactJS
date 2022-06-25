@@ -16,9 +16,9 @@ class Main extends Component {
       selectedStaff: null,
     };
   }
-  onStaffSelect(staffId) {
-    this.setState({ selectedStaff: staffId });
-  }
+  // onStaffSelect(staffId) {
+  //   this.setState({ selectedStaff: staffId });
+  // }
   render() {
     const StaffWithId = ({ match }) => {
       return (
