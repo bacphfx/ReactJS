@@ -9,6 +9,11 @@ import {
   Input,
   FormGroup,
   Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Label,
+  Col,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -29,13 +34,27 @@ class StaffList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyword: "",
       staffSearched: null,
+      isModalOpen: false,
+      name: "",
+      doB: "",
+      startDate: "",
+      department: "Sale",
+      salaryScale: "1",
+      annualLeave: "0",
+      overTime: "0",
     };
     this.renderBreedcrum = this.renderBreedcrum.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleAddStaff = this.handleAddStaff.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  toggleModal() {
+    this.setState({ isModalOpen: !this.state.isModalOpen });
+  }
+
   // function hiển thị Breadcrumb, dùng nhiều lần
   renderBreedcrum() {
     return (
@@ -46,45 +65,186 @@ class StaffList extends Component {
           </BreadcrumbItem>
           <BreadcrumbItem active>Nhân viên</BreadcrumbItem>
         </Breadcrumb>
+        <div></div>
         <div className="container">
-          <Form className="pull-right" onSubmit={this.handleSubmit}>
-            <Button className="btn btn-primary pull-right">Seacrh</Button>
+          <Form className="pull-right" onSubmit={this.handleSearch}>
+            <Button
+              type="submit"
+              value="submit"
+              className="btn btn-primary pull-right"
+            >
+              Seacrh
+            </Button>
             <FormGroup className="d-inline pull-right">
               <Input
                 type="text"
-                value={this.state.value}
-                onChange={this.handleChange}
+                id="search"
+                name="search"
                 placeholder="Nhập từ khóa để tìm kiếm"
+                innerRef={(input) => (this.search = input)}
               />
             </FormGroup>
+          </Form>
+          <Form className="pull-right mr-5">
+            <Button onClick={this.toggleModal}>
+              <span className="fa fa-solid fa-plus"></span>
+            </Button>
           </Form>
         </div>
         <div className="col-12">
           <h3>Nhân viên</h3>
         </div>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={this.handleSubmit}>
+              <FormGroup row>
+                <Label htmlFor="name" md={4}>
+                  Tên
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={this.state.name}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="doB" md={4}>
+                  Ngày sinh
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="date"
+                    id="doB"
+                    name="doB"
+                    value={this.state.doB}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="startDate" md={4}>
+                  Ngày vào công ty
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={this.state.startDate}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="department" md={4}>
+                  Phòng ban
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="select"
+                    id="department"
+                    name="department"
+                    value={this.state.department}
+                    onChange={this.handleAddStaff}
+                  >
+                    <option>Sale</option>
+                    <option>HR</option>
+                    <option>Marketing</option>
+                    <option>IT</option>
+                    <option>Finance</option>
+                  </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="salaryScale" md={4}>
+                  Hệ số lương
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="text"
+                    id="salaryScale"
+                    name="salaryScale"
+                    value={this.state.salaryScale}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="annualLeave" md={4}>
+                  Số ngày nghỉ còn lại
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="text"
+                    id="annualLeave"
+                    name="annualLeave"
+                    value={this.state.annualLeave}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label htmlFor="annualLeave" md={4}>
+                  Số ngày làm thêm
+                </Label>
+                <Col md={8}>
+                  <Input
+                    type="text"
+                    id="overTime"
+                    name="overTime"
+                    value={this.state.overTime}
+                    onChange={this.handleAddStaff}
+                  />
+                </Col>
+              </FormGroup>
+              <Button type="submit" value="submit">
+                Submit
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
 
-  // Hàm lấy keyword người dùng nhập vào
-  handleChange(event) {
-    this.setState({ keyword: event.target.value });
-  }
-
-  // Hàm tìm nhân viên thỏa mãn keyword
-  handleSubmit(event, searchResult) {
+  // Hàm thực hiện tìm kiếm
+  handleSearch(event, searchResult) {
     event.preventDefault();
     searchResult = this.props.staffs.filter((staff) =>
-      staff.name.toLowerCase().includes(this.state.keyword.toLowerCase())
+      staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
     this.setState({ staffSearched: searchResult });
-
-    return (
-      <div key={searchResult.id} className="col-6 col-sm-4 col-md-2 mt-3">
-        <RenderStaffList staff={searchResult} />
-      </div>
-    );
   }
+
+  // Hàm thêm mới nhân viên
+  handleAddStaff(event) {
+    event.preventDefault;
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const newStaff = {
+      name: this.state.name,
+      doB: this.state.doB,
+      salaryScale: this.state.salaryScale,
+      startDate: this.state.startDate,
+      department: this.state.department,
+      annualLeave: this.state.annualLeave,
+      overTime: this.state.overTime,
+      // salary: this.salaryScale * 3000000 + this.overTime * 200000,
+      image: "/assets/images/alberto.png",
+    };
+    this.props.staffs.push(newStaff);
+  }
+
   render() {
     // Nếu chưa thực hiện tìm kiếm
     if (this.state.staffSearched == null) {
