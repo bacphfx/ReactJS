@@ -44,7 +44,6 @@ class StaffList extends Component {
       salaryScale: "1",
       annualLeave: "0",
       overTime: "0",
-      validStaff: true,
       touched: {
         name: false,
         doB: false,
@@ -74,20 +73,23 @@ class StaffList extends Component {
   // Hàm tạo nhân viên mới
   handleSubmit(event) {
     event.preventDefault();
-    if ((this.state.validStaff = true)) {
-      const newStaff = {
-        id: this.props.staffs.length,
-        name: this.state.name,
-        doB: this.state.doB,
-        salaryScale: this.state.salaryScale,
-        startDate: this.state.startDate,
-        department: { name: this.state.department },
-        annualLeave: this.state.annualLeave,
-        overTime: this.state.overTime,
-        salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
-        image: "/assets/images/alberto.png",
-      };
-
+    const newStaff = {
+      id: this.props.staffs.length,
+      name: this.state.name,
+      doB: this.state.doB,
+      salaryScale: this.state.salaryScale,
+      startDate: this.state.startDate,
+      department: { name: this.state.department },
+      annualLeave: this.state.annualLeave,
+      overTime: this.state.overTime,
+      salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
+      image: "/assets/images/alberto.png",
+    };
+    if (
+      newStaff.name !== "" &&
+      newStaff.name.length > 2 &&
+      newStaff.name.length < 30
+    ) {
       this.props.staffs.push(newStaff);
       this.toggleModal();
     }
@@ -98,7 +100,7 @@ class StaffList extends Component {
       touched: { ...this.state.touched, [field]: true },
     });
   };
-
+  // Hàm validate dữ liệu nhân viên mới
   validate(name, doB, startDate) {
     const errors = {
       name: "",
