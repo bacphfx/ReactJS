@@ -5,18 +5,17 @@ import {
   CardText,
   Breadcrumb,
   BreadcrumbItem,
-  Form,
-  Input,
-  FormGroup,
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   Label,
   Col,
-  FormFeedback,
+  Row,
+  Input,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Control, LocalForm, Errors } from "react-redux-form";
 
 // tạo function hiển thị nhân viên
 function RenderStaffList({ staff }) {
@@ -36,101 +35,25 @@ class StaffList extends Component {
     super(props);
     this.state = {
       staffSearched: null,
-      isModalOpen: false,
-      name: "",
-      doB: "",
-      startDate: "",
-      department: "Sale",
-      salaryScale: "1",
-      annualLeave: "0",
-      overTime: "0",
-      touched: {
-        name: false,
-        doB: false,
-        startDate: false,
-      },
     };
     this.renderBreedcrum = this.renderBreedcrum.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.handleAddStaff = this.handleAddStaff.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
   }
 
   toggleModal() {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
-  // Hàm thêm thông tin nhân viên vào state
-  handleAddStaff(event) {
-    event.preventDefault;
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({ [name]: value });
-  }
-
   // Hàm tạo nhân viên mới
-  handleSubmit(event) {
-    event.preventDefault();
-    const newStaff = {
-      id: this.props.staffs.length,
-      name: this.state.name,
-      doB: this.state.doB,
-      salaryScale: this.state.salaryScale,
-      startDate: this.state.startDate,
-      department: { name: this.state.department },
-      annualLeave: this.state.annualLeave,
-      overTime: this.state.overTime,
-      salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
-      image: "/assets/images/alberto.png",
-    };
-    if (
-      newStaff.name !== "" &&
-      newStaff.name.length > 2 &&
-      newStaff.name.length < 30
-    ) {
-      this.props.staffs.push(newStaff);
-      this.toggleModal();
-    }
-  }
-
-  handleBlur = (field) => (evt) => {
-    this.setState({
-      touched: { ...this.state.touched, [field]: true },
-    });
-  };
-  // Hàm validate dữ liệu nhân viên mới
-  validate(name, doB, startDate) {
-    const errors = {
-      name: "",
-      doB: "",
-      startDate: "",
-    };
-
-    if (this.state.touched.name && name.length === 0)
-      errors.name = "Yêu cầu nhập";
-    else if (this.state.touched.name && name.length <= 2)
-      errors.name = "Yêu cầu nhiều hơn 2 ký tự";
-    else if (this.state.touched.name && name.length >= 30)
-      errors.name = "Yêu cầu nhập ít hơn 30 ký tự";
-
-    if (this.state.touched.doB && doB === new Date())
-      errors.name = "Yêu cầu nhập";
-
-    if (this.state.touched.startDate && startDate.length === 0)
-      errors.name = "Yêu cầu nhập";
-
-    return errors;
+  handleSubmit(values) {
+    console.log(values);
   }
 
   // function hiển thị Breadcrumb, dùng nhiều lần
   renderBreedcrum() {
-    const errors = this.validate(
-      this.state.name,
-      this.state.doB,
-      this.state.startDate
-    );
     return (
       <div className="row">
         <Breadcrumb>
@@ -141,7 +64,7 @@ class StaffList extends Component {
         </Breadcrumb>
         <div></div>
         <div className="container">
-          <Form className="pull-right" onSubmit={this.handleSearch}>
+          <LocalForm className="pull-right" onSubmit={this.handleSearch}>
             <Button
               type="submit"
               value="submit"
@@ -149,21 +72,21 @@ class StaffList extends Component {
             >
               Seacrh
             </Button>
-            <FormGroup className="d-inline pull-right">
-              <Input
-                type="text"
+            <Row className="form-group">
+              <Control.text
+                model=".search"
                 id="search"
                 name="search"
                 placeholder="Nhập từ khóa để tìm kiếm"
                 innerRef={(input) => (this.search = input)}
               />
-            </FormGroup>
-          </Form>
-          <Form className="pull-right mr-5">
+            </Row>
+          </LocalForm>
+          <LocalForm className="pull-right mr-5">
             <Button onClick={this.toggleModal}>
               <span className="fa fa-solid fa-plus"></span>
             </Button>
-          </Form>
+          </LocalForm>
         </div>
         <div className="col-12">
           <h3>Nhân viên</h3>
@@ -171,66 +94,58 @@ class StaffList extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Thêm nhân viên</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.handleSubmit}>
-              <FormGroup row>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+              <Row className="form-group">
                 <Label htmlFor="name" md={4}>
                   Tên
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".name"
                     id="name"
                     name="name"
-                    value={this.state.name}
-                    valid={errors.name === ""}
-                    invalid={errors.name !== ""}
-                    onBlur={this.handleBlur("name")}
-                    onChange={this.handleAddStaff}
+                    className="form-control"
                   />
-                  <FormFeedback>{errors.name}</FormFeedback>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="doB" md={4}>
                   Ngày sinh
                 </Label>
                 <Col md={8}>
                   <Input
                     type="date"
+                    model=".doB"
                     id="doB"
                     name="doB"
-                    value={this.state.doB}
-                    onBlur={this.handleBlur("doB")}
-                    onChange={this.handleAddStaff}
+                    className="form-control"
                   />
-                  <FormFeedback>{errors.doB}</FormFeedback>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="startDate" md={4}>
                   Ngày vào công ty
                 </Label>
                 <Col md={8}>
                   <Input
                     type="date"
+                    model=".startDate"
                     id="startDate"
                     name="startDate"
-                    value={this.state.startDate}
-                    onBlur={this.handleBlur("startDate")}
-                    onChange={this.handleAddStaff}
+                    className="form-control"
                   />
-                  <FormFeedback>{errors.startDate}</FormFeedback>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="department" md={4}>
                   Phòng ban
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="select"
+                  <Control.select
+                    model=".department"
                     id="department"
                     name="department"
+                    className="form-control"
                     value={this.state.department}
                     onChange={this.handleAddStaff}
                   >
@@ -239,57 +154,54 @@ class StaffList extends Component {
                     <option>Marketing</option>
                     <option>IT</option>
                     <option>Finance</option>
-                  </Input>
+                  </Control.select>
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="salaryScale" md={4}>
                   Hệ số lương
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model=".salaryScale"
                     id="salaryScale"
                     name="salaryScale"
-                    value={this.state.salaryScale}
+                    className="form-control"
                     placeholder="1.0 → 3.0"
-                    onChange={this.handleAddStaff}
                   />
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="annualLeave" md={4}>
                   Số ngày nghỉ còn lại
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model="annualLeave"
                     id="annualLeave"
                     name="annualLeave"
-                    value={this.state.annualLeave}
+                    className="form-control"
                     placeholder="1"
-                    onChange={this.handleAddStaff}
                   />
                 </Col>
-              </FormGroup>
-              <FormGroup row>
+              </Row>
+              <Row className="form-group">
                 <Label htmlFor="annualLeave" md={4}>
                   Số ngày làm thêm
                 </Label>
                 <Col md={8}>
-                  <Input
-                    type="text"
+                  <Control.text
+                    model="overTime"
                     id="overTime"
                     name="overTime"
-                    value={this.state.overTime}
-                    onChange={this.handleAddStaff}
+                    className="form-control"
                   />
                 </Col>
-              </FormGroup>
+              </Row>
               <Button type="submit" value="submit">
                 Submit
               </Button>
-            </Form>
+            </LocalForm>
           </ModalBody>
         </Modal>
       </div>
@@ -298,7 +210,6 @@ class StaffList extends Component {
 
   // Hàm thực hiện tìm kiếm
   handleSearch(event, searchResult) {
-    event.preventDefault();
     searchResult = this.props.staffs.filter((staff) =>
       staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
