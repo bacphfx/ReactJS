@@ -1,30 +1,31 @@
 import React, { Component } from "react";
-import { STAFFS } from "../shared/staffs";
+
 import StaffList from "./StaffListComponent";
 import StaffDetail from "./StaffDetailComponent";
 import Departments from "./DepartmentComponent";
 import Salary from "./SalaryComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => {
+  return {
+    staffs: state.staffs,
+  };
+};
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      staffs: STAFFS,
-      selectedStaff: null,
-    };
   }
-  onStaffSelect(staffId) {
-    this.setState({ selectedStaff: staffId });
-  }
+
   render() {
     const StaffWithId = ({ match }) => {
       return (
         <StaffDetail
           staff={
-            this.state.staffs.filter(
+            this.props.staffs.filter(
               (staff) => staff.id === parseInt(match.params.staffId, 10)
             )[0]
           }
@@ -38,13 +39,13 @@ class Main extends Component {
           <Route
             exact
             path="/staffs"
-            component={() => <StaffList staffs={this.state.staffs} />}
+            component={() => <StaffList staffs={this.props.staffs} />}
           />
           <Route path="/staffs/:staffId" component={StaffWithId} />
           <Route path="/departments" component={Departments} />
           <Route
             path="/salary"
-            component={() => <Salary staffs={this.state.staffs} />}
+            component={() => <Salary staffs={this.props.staffs} />}
           />
           <Redirect to="/staffs" />
         </Switch>
@@ -54,4 +55,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
