@@ -39,10 +39,10 @@ class StaffList extends Component {
       name: "",
       doB: "",
       startDate: "",
-      department: "Sale",
-      salaryScale: "1",
-      annualLeave: "0",
-      overTime: "0",
+      department: "",
+      salaryScale: "",
+      annualLeave: "",
+      overTime: "",
     };
     this.renderBreedcrum = this.renderBreedcrum.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -231,7 +231,9 @@ class StaffList extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.toggleModal();
     const newStaff = {
+      id: this.props.staffs.length,
       name: this.state.name,
       doB: this.state.doB,
       salaryScale: this.state.salaryScale,
@@ -239,10 +241,12 @@ class StaffList extends Component {
       department: this.state.department,
       annualLeave: this.state.annualLeave,
       overTime: this.state.overTime,
-      // salary: this.salaryScale * 3000000 + this.overTime * 200000,
+      salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
       image: "/assets/images/alberto.png",
     };
+    console.log(newStaff);
     this.props.staffs.push(newStaff);
+    console.log(this.props.staffs);
   }
 
   render() {
