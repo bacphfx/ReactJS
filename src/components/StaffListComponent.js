@@ -14,6 +14,7 @@ import {
   ModalBody,
   Label,
   Col,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -39,24 +40,95 @@ class StaffList extends Component {
       name: "",
       doB: "",
       startDate: "",
-      department: "",
-      salaryScale: "",
-      annualLeave: "",
-      overTime: "",
+      department: "Sale",
+      salaryScale: "1",
+      annualLeave: "0",
+      overTime: "0",
+      validStaff: true,
+      touched: {
+        name: false,
+        doB: false,
+        startDate: false,
+      },
     };
     this.renderBreedcrum = this.renderBreedcrum.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.handleAddStaff = this.handleAddStaff.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   toggleModal() {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
+  // Hàm thêm thông tin nhân viên vào state
+  handleAddStaff(event) {
+    event.preventDefault;
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({ [name]: value });
+  }
+
+  // Hàm tạo nhân viên mới
+  handleSubmit(event) {
+    event.preventDefault();
+    if ((this.state.validStaff = true)) {
+      const newStaff = {
+        id: this.props.staffs.length,
+        name: this.state.name,
+        doB: this.state.doB,
+        salaryScale: this.state.salaryScale,
+        startDate: this.state.startDate,
+        department: { name: this.state.department },
+        annualLeave: this.state.annualLeave,
+        overTime: this.state.overTime,
+        salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
+        image: "/assets/images/alberto.png",
+      };
+
+      this.props.staffs.push(newStaff);
+      this.toggleModal();
+    }
+  }
+
+  handleBlur = (field) => (evt) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true },
+    });
+  };
+
+  validate(name, doB, startDate) {
+    const errors = {
+      name: "",
+      doB: "",
+      startDate: "",
+    };
+
+    if (this.state.touched.name && name.length === 0)
+      errors.name = "Yêu cầu nhập";
+    else if (this.state.touched.name && name.length <= 2)
+      errors.name = "Yêu cầu nhiều hơn 2 ký tự";
+    else if (this.state.touched.name && name.length >= 30)
+      errors.name = "Yêu cầu nhập ít hơn 30 ký tự";
+
+    if (this.state.touched.doB && doB === new Date())
+      errors.name = "Yêu cầu nhập";
+
+    if (this.state.touched.startDate && startDate.length === 0)
+      errors.name = "Yêu cầu nhập";
+
+    return errors;
+  }
+
   // function hiển thị Breadcrumb, dùng nhiều lần
   renderBreedcrum() {
+    const errors = this.validate(
+      this.state.name,
+      this.state.doB,
+      this.state.startDate
+    );
     return (
       <div className="row">
         <Breadcrumb>
@@ -108,8 +180,12 @@ class StaffList extends Component {
                     id="name"
                     name="name"
                     value={this.state.name}
+                    valid={errors.name === ""}
+                    invalid={errors.name !== ""}
+                    onBlur={this.handleBlur("name")}
                     onChange={this.handleAddStaff}
                   />
+                  <FormFeedback>{errors.name}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -122,8 +198,10 @@ class StaffList extends Component {
                     id="doB"
                     name="doB"
                     value={this.state.doB}
+                    onBlur={this.handleBlur("doB")}
                     onChange={this.handleAddStaff}
                   />
+                  <FormFeedback>{errors.doB}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -136,8 +214,10 @@ class StaffList extends Component {
                     id="startDate"
                     name="startDate"
                     value={this.state.startDate}
+                    onBlur={this.handleBlur("startDate")}
                     onChange={this.handleAddStaff}
                   />
+                  <FormFeedback>{errors.startDate}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -170,6 +250,7 @@ class StaffList extends Component {
                     id="salaryScale"
                     name="salaryScale"
                     value={this.state.salaryScale}
+                    placeholder="1.0 → 3.0"
                     onChange={this.handleAddStaff}
                   />
                 </Col>
@@ -184,6 +265,7 @@ class StaffList extends Component {
                     id="annualLeave"
                     name="annualLeave"
                     value={this.state.annualLeave}
+                    placeholder="1"
                     onChange={this.handleAddStaff}
                   />
                 </Col>
@@ -219,34 +301,6 @@ class StaffList extends Component {
       staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
     this.setState({ staffSearched: searchResult });
-  }
-
-  // Hàm thêm mới nhân viên
-  handleAddStaff(event) {
-    event.preventDefault;
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({ [name]: value });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.toggleModal();
-    const newStaff = {
-      id: this.props.staffs.length,
-      name: this.state.name,
-      doB: this.state.doB,
-      salaryScale: this.state.salaryScale,
-      startDate: this.state.startDate,
-      department: this.state.department,
-      annualLeave: this.state.annualLeave,
-      overTime: this.state.overTime,
-      salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
-      image: "/assets/images/alberto.png",
-    };
-    console.log(newStaff);
-    this.props.staffs.push(newStaff);
-    console.log(this.props.staffs);
   }
 
   render() {
