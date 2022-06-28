@@ -85,10 +85,17 @@ class StaffList extends Component {
       salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
       image: "/assets/images/alberto.png",
     };
+    const errors = this.validate(
+      this.state.name,
+      this.state.doB,
+      this.state.startDate
+    );
+    console.log(errors);
     if (
-      newStaff.name !== "" &&
-      newStaff.name.length > 2 &&
-      newStaff.name.length < 30
+      !errors.name &&
+      !errors.doB &&
+      !errors.startDate &&
+      this.state.name.length !== 0
     ) {
       this.props.staffs.push(newStaff);
       this.toggleModal();
@@ -115,11 +122,10 @@ class StaffList extends Component {
     else if (this.state.touched.name && name.length >= 30)
       errors.name = "Yêu cầu nhập ít hơn 30 ký tự";
 
-    if (this.state.touched.doB && doB === new Date())
-      errors.name = "Yêu cầu nhập";
+    if (this.state.touched.doB && doB.length === 0) errors.doB = "Yêu cầu nhập";
 
     if (this.state.touched.startDate && startDate.length === 0)
-      errors.name = "Yêu cầu nhập";
+      errors.startDate = "Yêu cầu nhập";
 
     return errors;
   }
@@ -200,6 +206,8 @@ class StaffList extends Component {
                     id="doB"
                     name="doB"
                     value={this.state.doB}
+                    valid={errors.doB === ""}
+                    invalid={errors.doB !== ""}
                     onBlur={this.handleBlur("doB")}
                     onChange={this.handleAddStaff}
                   />
@@ -216,6 +224,8 @@ class StaffList extends Component {
                     id="startDate"
                     name="startDate"
                     value={this.state.startDate}
+                    valid={errors.startDate === ""}
+                    invalid={errors.startDate !== ""}
                     onBlur={this.handleBlur("startDate")}
                     onChange={this.handleAddStaff}
                   />
