@@ -12,6 +12,7 @@ import {
   Label,
   Col,
   Row,
+  Form,
   Input,
 } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -50,6 +51,7 @@ class StaffList extends Component {
   // Hàm tạo nhân viên mới
   handleSubmit(values) {
     console.log(values);
+    this.props.staffs.push([values]);
   }
 
   // function hiển thị Breadcrumb, dùng nhiều lần
@@ -64,7 +66,7 @@ class StaffList extends Component {
         </Breadcrumb>
         <div></div>
         <div className="container">
-          <LocalForm className="pull-right" onSubmit={this.handleSearch}>
+          <Form className="pull-right" onSubmit={this.handleSearch}>
             <Button
               type="submit"
               value="submit"
@@ -73,15 +75,15 @@ class StaffList extends Component {
               Seacrh
             </Button>
             <Row className="form-group">
-              <Control.text
-                model=".search"
+              <Input
+                type="text"
                 id="search"
                 name="search"
                 placeholder="Nhập từ khóa để tìm kiếm"
                 innerRef={(input) => (this.search = input)}
               />
             </Row>
-          </LocalForm>
+          </Form>
           <LocalForm className="pull-right mr-5">
             <Button onClick={this.toggleModal}>
               <span className="fa fa-solid fa-plus"></span>
@@ -113,7 +115,7 @@ class StaffList extends Component {
                   Ngày sinh
                 </Label>
                 <Col md={8}>
-                  <Input
+                  <Control
                     type="date"
                     model=".doB"
                     id="doB"
@@ -127,7 +129,7 @@ class StaffList extends Component {
                   Ngày vào công ty
                 </Label>
                 <Col md={8}>
-                  <Input
+                  <Control
                     type="date"
                     model=".startDate"
                     id="startDate"
@@ -146,8 +148,6 @@ class StaffList extends Component {
                     id="department"
                     name="department"
                     className="form-control"
-                    value={this.state.department}
-                    onChange={this.handleAddStaff}
                   >
                     <option>Sale</option>
                     <option>HR</option>
@@ -210,6 +210,7 @@ class StaffList extends Component {
 
   // Hàm thực hiện tìm kiếm
   handleSearch(event, searchResult) {
+    event.preventDefault();
     searchResult = this.props.staffs.filter((staff) =>
       staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
