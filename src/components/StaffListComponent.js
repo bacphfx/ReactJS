@@ -30,6 +30,10 @@ function RenderStaffList({ staff }) {
   );
 }
 
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+
 // Khai báo component StaffList
 class StaffList extends Component {
   constructor(props) {
@@ -40,7 +44,6 @@ class StaffList extends Component {
     this.renderBreedcrum = this.renderBreedcrum.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -50,8 +53,24 @@ class StaffList extends Component {
 
   // Hàm tạo nhân viên mới
   handleSubmit(values) {
-    console.log(values);
-    this.props.staffs.push([values]);
+    const newStaff = {
+      id: this.props.staffs.length,
+      name: values.name,
+      doB: values.doB,
+      salaryScale: values.salaryScale ? values.salaryScale : 1,
+      startDate: values.startDate,
+      department: values.department
+        ? { name: values.department }
+        : { name: "Sale" },
+      annualLeave: values.annualLeave ? values.annualLeave : 0,
+      overTime: values.overTime ? values.annualLeave : 0,
+      salary: values.salaryScale * 3000000 + values.overTime * 200000,
+      image: "/assets/images/alberto.png",
+    };
+
+    this.props.staffs.push(newStaff);
+    console.log(this.props.staffs);
+    this.toggleModal();
   }
 
   // function hiển thị Breadcrumb, dùng nhiều lần
@@ -74,7 +93,7 @@ class StaffList extends Component {
             >
               Seacrh
             </Button>
-            <Row className="form-group">
+            <Row className="form-group mr-2">
               <Input
                 type="text"
                 id="search"
@@ -107,6 +126,21 @@ class StaffList extends Component {
                     id="name"
                     name="name"
                     className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(3),
+                      maxLength: maxLength(30),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".name"
+                    show="touched"
+                    messages={{
+                      required: "Yêu cầu nhập",
+                      minLength: "Yêu cầu nhiều hơn 2 ký tự",
+                      maxLength: "Yêu cầu nhập ít hơn 30 ký tự",
+                    }}
                   />
                 </Col>
               </Row>
@@ -121,6 +155,15 @@ class StaffList extends Component {
                     id="doB"
                     name="doB"
                     className="form-control"
+                    validators={{ required }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".doB"
+                    show="touched"
+                    messages={{
+                      required: "Yêu cầu nhập",
+                    }}
                   />
                 </Col>
               </Row>
@@ -135,6 +178,15 @@ class StaffList extends Component {
                     id="startDate"
                     name="startDate"
                     className="form-control"
+                    validators={{ required }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".startDate"
+                    show="touched"
+                    messages={{
+                      required: "Yêu cầu nhập",
+                    }}
                   />
                 </Col>
               </Row>
@@ -167,7 +219,7 @@ class StaffList extends Component {
                     id="salaryScale"
                     name="salaryScale"
                     className="form-control"
-                    placeholder="1.0 → 3.0"
+                    placeholder="1"
                   />
                 </Col>
               </Row>
@@ -177,24 +229,25 @@ class StaffList extends Component {
                 </Label>
                 <Col md={8}>
                   <Control.text
-                    model="annualLeave"
+                    model=".annualLeave"
                     id="annualLeave"
                     name="annualLeave"
                     className="form-control"
-                    placeholder="1"
+                    placeholder="0"
                   />
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="annualLeave" md={4}>
+                <Label htmlFor="overTime" md={4}>
                   Số ngày làm thêm
                 </Label>
                 <Col md={8}>
                   <Control.text
-                    model="overTime"
+                    model=".overTime"
                     id="overTime"
                     name="overTime"
                     className="form-control"
+                    placeholder="0"
                   />
                 </Col>
               </Row>

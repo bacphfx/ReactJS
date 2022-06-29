@@ -12,7 +12,10 @@ import { Link } from "react-router-dom";
 
 // tạo function hiển thị thông tin bảng lương của nhân nhiên
 function RenderSalary({ staff }) {
-  const salaryCalc = staff.salaryScale * 3000000 + staff.overTime * 200000;
+  const salaryCalc = (
+    staff.salaryScale * 3000000 +
+    staff.overTime * 200000
+  ).toFixed(0);
   staff.salaryCalc = salaryCalc;
   return (
     <Card>
