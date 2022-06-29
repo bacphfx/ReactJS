@@ -64,7 +64,6 @@ class StaffList extends Component {
         : { name: "Sale" },
       annualLeave: values.annualLeave ? values.annualLeave : 0,
       overTime: values.overTime ? values.annualLeave : 0,
-      salary: values.salaryScale * 3000000 + values.overTime * 200000,
       image: "/assets/images/alberto.png",
     };
 
