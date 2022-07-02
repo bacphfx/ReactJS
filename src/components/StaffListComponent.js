@@ -85,12 +85,14 @@ class StaffList extends Component {
       salary: this.state.salaryScale * 3000000 + this.state.overTime * 200000,
       image: "/assets/images/alberto.png",
     };
+
+    // validate dữ liệu trước khi submit
     const errors = this.validate(
       this.state.name,
       this.state.doB,
       this.state.startDate
     );
-    console.log(errors);
+
     if (
       !errors.name &&
       !errors.doB &&
