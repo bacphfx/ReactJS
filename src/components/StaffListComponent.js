@@ -63,7 +63,7 @@ class StaffList extends Component {
         ? { name: values.department }
         : { name: "Sale" },
       annualLeave: values.annualLeave ? values.annualLeave : 0,
-      overTime: values.overTime ? values.annualLeave : 0,
+      overTime: values.overTime ? values.overTime : 0,
       image: "/assets/images/alberto.png",
     };
 
