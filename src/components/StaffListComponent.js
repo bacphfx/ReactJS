@@ -257,7 +257,7 @@ class StaffList extends Component {
   // Hàm thực hiện tìm kiếm
   handleSearch(event, searchResult) {
     event.preventDefault();
-    searchResult = this.props.staffs.filter((staff) =>
+    searchResult = this.props.staffs.staffs.filter((staff) =>
       staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
     this.setState({ staffSearched: searchResult });
