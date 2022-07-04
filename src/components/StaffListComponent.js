@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Loading } from "./LoadingComponents";
 import {
   Card,
   CardImg,
@@ -53,22 +54,15 @@ class StaffList extends Component {
 
   // Hàm tạo nhân viên mới
   handleSubmit(values) {
-    const newStaff = {
-      id: this.props.staffs.length,
-      name: values.name,
-      doB: values.doB,
-      salaryScale: values.salaryScale ? values.salaryScale : 1,
-      startDate: values.startDate,
-      department: values.department
-        ? { name: values.department }
-        : { name: "Sale" },
-      annualLeave: values.annualLeave ? values.annualLeave : 0,
-      overTime: values.overTime ? values.overTime : 0,
-      image: "/assets/images/alberto.png",
-    };
-
-    this.props.staffs.push(newStaff);
-    console.log(this.props.staffs);
+    this.props.addStaff(
+      values.name,
+      values.doB,
+      values.startDate,
+      values.salaryScale,
+      values.department,
+      values.annualLeave,
+      values.overTime
+    );
     this.toggleModal();
   }
 
@@ -272,12 +266,32 @@ class StaffList extends Component {
   render() {
     // Nếu chưa thực hiện tìm kiếm
     if (this.state.staffSearched == null) {
-      const staffList = this.props.staffs.map((staff) => {
-        return (
-          <div key={staff.id} className="col-6 col-sm-4 col-md-2 mt-3">
-            <RenderStaffList staff={staff} />
-          </div>
-        );
+      console.log(this.props.staffs);
+      const staffList = this.props.staffs.staffs.map((staff) => {
+        if (this.props.staffs.isLoading) {
+          return (
+            <div className="container">
+              <div className="row">
+                <Loading />
+              </div>
+            </div>
+          );
+        } else if (this.props.staffs.errMess) {
+          return (
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <h4>{this.props.staffs.errMess}</h4>
+                </div>
+              </div>
+            </div>
+          );
+        } else
+          return (
+            <div key={staff.id} className="col-6 col-sm-4 col-md-2 mt-3">
+              <RenderStaffList staff={staff} />
+            </div>
+          );
       });
 
       return (
