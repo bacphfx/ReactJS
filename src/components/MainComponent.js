@@ -12,13 +12,15 @@ import { connect } from "react-redux";
 import {
   addStaff,
   fetchStaffs,
-  fetchDepartments,
+  fetchDeptList,
+  fetDeptDetail,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
-    departments: state.departments,
+    deptList: state.deptList,
+    deptDetail: state.deptDetail,
   };
 };
 
@@ -46,8 +48,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => {
     dispatch(fetchStaffs());
   },
-  fetchDepartments: () => {
-    dispatch(fetchDepartments());
+  fetchDeptList: () => {
+    dispatch(fetchDeptList());
   },
 });
 
@@ -57,7 +59,7 @@ class Main extends Component {
   }
   componentDidMount() {
     this.props.fetchStaffs();
-    this.props.fetchDepartments();
+    this.props.fetchDeptList();
   }
 
   render() {
@@ -78,12 +80,11 @@ class Main extends Component {
       return (
         <DepartmentDetail
           department={
-            this.props.departments.departments.filter(
-              (department) => department.id == match.params.departmentId
+            this.props.deptList.deptList.filter(
+              (department) => department.id === match.params.departmentId
             )[0]
           }
-          isLoading={this.props.departments.isLoading}
-          errMess={this.props.departments.errMess}
+          deptDetail={this.props.deptDetail}
         />
       );
     };
@@ -108,9 +109,7 @@ class Main extends Component {
           />
           <Route
             path="/departments"
-            component={() => (
-              <Departments departments={this.props.departments} />
-            )}
+            component={() => <Departments deptList={this.props.deptList} />}
           />
           <Route
             path="/salary"

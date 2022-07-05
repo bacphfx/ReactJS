@@ -1,7 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
 
-export const Departments = (
-  state = { isLoading: true, errMess: null, departments: [] },
+export const DeptList = (
+  state = { isLoading: true, errMess: null, deptList: [] },
   action
 ) => {
   switch (action.type) {
@@ -10,7 +10,7 @@ export const Departments = (
         ...state,
         isLoading: false,
         errMess: null,
-        departments: action.payload,
+        deptList: action.payload,
       };
 
     case ActionTypes.DEPARTMENTS_FAILED:

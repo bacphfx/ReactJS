@@ -44,10 +44,10 @@ export const addStaffs = (staffs) => ({
   payload: staffs,
 });
 
-export const fetchDepartments = () => (dispatch) => {
+export const fetchDeptList = () => (dispatch) => {
   return fetch(baseUrl + "departments")
     .then((response) => response.json())
-    .then((departments) => dispatch(addDepartments(departments)));
+    .then((departments) => dispatch(addDeptList(departments)));
 };
 
 export const departmentFailed = (errmess) => ({
@@ -55,7 +55,18 @@ export const departmentFailed = (errmess) => ({
   payload: errmess,
 });
 
-export const addDepartments = (departments) => ({
+export const addDeptList = (departments) => ({
   type: ActionTypes.ADD_DEPARTMENTS,
   payload: departments,
+});
+
+export const fetDeptDetail = (id) => (dispatch) => {
+  return fetch(baseUrl + "departments/" + id)
+    .then((response) => response.json())
+    .then((deptDetail) => dispatch(addDeptDetail(deptDetail)));
+};
+
+export const addDeptDetail = (deptDetail) => ({
+  type: ActionTypes.ADD_DEPTDETAIL,
+  payload: deptDetail,
 });

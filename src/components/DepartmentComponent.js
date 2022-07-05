@@ -14,22 +14,18 @@ class Departments extends Component {
     super(props);
   }
   render() {
-    const departmentsDetail = this.props.departments.departments.map(
-      (department) => {
-        return (
-          <Card key={department.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <Link to={`/departments/${department.id}`}>
-              <CardHeader>
-                <b>{department.name}</b>
-              </CardHeader>
-              <CardText>
-                Số lượng nhân viên: {department.numberOfStaff}
-              </CardText>
-            </Link>
-          </Card>
-        );
-      }
-    );
+    const deptList = this.props.deptList.deptList.map((department) => {
+      return (
+        <Card key={department.id} className="col-12 col-sm-6 col-md-4 mt-3">
+          <Link to={`/departments/${department.id}`}>
+            <CardHeader>
+              <b>{department.name}</b>
+            </CardHeader>
+            <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
+          </Link>
+        </Card>
+      );
+    });
     return (
       <div className="container mb-5">
         <div className="row">
@@ -43,7 +39,7 @@ class Departments extends Component {
             <h3>Phòng ban</h3>
           </div>
         </div>
-        <div className="row">{departmentsDetail}</div>
+        <div className="row">{deptList}</div>
       </div>
     );
   }
