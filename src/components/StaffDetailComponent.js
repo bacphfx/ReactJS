@@ -5,6 +5,23 @@ import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponents";
 
 function RenderStaffDetail({ staff }) {
+  switch (staff.departmentId) {
+    case "Dept01":
+      staff.department = "Sale";
+      break;
+    case "Dept02":
+      staff.department = "HR";
+      break;
+    case "Dept03":
+      staff.department = "Marketing";
+      break;
+    case "Dept04":
+      staff.department = "IT";
+      break;
+    case "Dept05":
+      staff.department = "Finance";
+      break;
+  }
   return (
     <div key={staff.id}>
       <Media tag="li">
@@ -18,7 +35,7 @@ function RenderStaffDetail({ staff }) {
           <Media heading>Họ và tên: {staff.name}</Media>
           <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
           <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-          <p>Phòng ban: {staff.department.name}</p>
+          <p>Phòng ban: {staff.department}</p>
           <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
           <p>Số ngày làm thêm: {staff.overTime}</p>
         </Media>

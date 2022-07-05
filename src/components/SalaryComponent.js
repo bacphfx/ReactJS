@@ -87,7 +87,7 @@ class Salary extends Component {
     // Nếu state là id tăng dần
     if (this.state.sort === "id uppering") {
       // Tạo mảng mới theo id tăng dần
-      const sortByIDUperring = this.props.staffs.sort(function (a, b) {
+      const sortByIDUperring = this.props.staffs.staffs.sort(function (a, b) {
         if (a.id < b.id) {
           return -1;
         }
@@ -114,7 +114,7 @@ class Salary extends Component {
     // Nếu state là id giảm dần
     else if (this.state.sort === "id lowering") {
       // tạo mảng mới theo id giảm dần
-      const sortByIDLowering = this.props.staffs.sort(function (a, b) {
+      const sortByIDLowering = this.props.staffs.staffs.sort(function (a, b) {
         if (a.id > b.id) {
           return -1;
         }
@@ -141,7 +141,10 @@ class Salary extends Component {
     // Nếu state là lương tăng dần
     else if (this.state.sort === "salary uppering") {
       // Tạo mảng mới theo lương tăng dần
-      const sortBySalaryUppering = this.props.staffs.sort(function (a, b) {
+      const sortBySalaryUppering = this.props.staffs.staffs.sort(function (
+        a,
+        b
+      ) {
         if (a.salaryCalc < b.salaryCalc) {
           return -1;
         }
@@ -168,7 +171,10 @@ class Salary extends Component {
     // Nếu state là lương giảm dần
     else if (this.state.sort === "salary lowering") {
       // Tạo mảng mới có lương giảm dần
-      const sortBySalaryLowering = this.props.staffs.sort(function (a, b) {
+      const sortBySalaryLowering = this.props.staffs.staffs.sort(function (
+        a,
+        b
+      ) {
         if (a.salaryCalc > b.salaryCalc) {
           return -1;
         }

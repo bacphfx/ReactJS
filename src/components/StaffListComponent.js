@@ -18,7 +18,6 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
-import { baseUrl } from "../shared/baseUrl";
 
 // tạo function hiển thị nhân viên
 function RenderStaffList({ staff }) {
@@ -267,7 +266,6 @@ class StaffList extends Component {
   render() {
     // Nếu chưa thực hiện tìm kiếm
     if (this.state.staffSearched == null) {
-      console.log(this.props.staffs);
       const staffList = this.props.staffs.staffs.map((staff) => {
         if (this.props.staffs.isLoading) {
           return (

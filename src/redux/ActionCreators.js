@@ -1,5 +1,4 @@
 import * as ActionTypes from "./ActionTypes";
-import { STAFFS } from "../shared/staffs";
 import { baseUrl } from "../shared/baseUrl";
 
 export const addStaff = (
@@ -43,4 +42,20 @@ export const staffFailed = (errmess) => ({
 export const addStaffs = (staffs) => ({
   type: ActionTypes.ADD_STAFFS,
   payload: staffs,
+});
+
+export const fetchDepartments = () => (dispatch) => {
+  return fetch(baseUrl + "departments")
+    .then((response) => response.json())
+    .then((departments) => dispatch(addDepartments(departments)));
+};
+
+export const departmentFailed = (errmess) => ({
+  type: ActionTypes.DEPARTMENTS_FAILED,
+  payload: errmess,
+});
+
+export const addDepartments = (departments) => ({
+  type: ActionTypes.ADD_DEPARTMENTS,
+  payload: departments,
 });

@@ -8,11 +8,16 @@ import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addStaff, fetchStaffs } from "../redux/ActionCreators";
+import {
+  addStaff,
+  fetchStaffs,
+  fetchDepartments,
+} from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
+    departments: state.departments,
   };
 };
 
@@ -40,6 +45,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => {
     dispatch(fetchStaffs());
   },
+  fetchDepartments: () => {
+    dispatch(fetchDepartments());
+  },
 });
 
 class Main extends Component {
@@ -48,6 +56,7 @@ class Main extends Component {
   }
   componentDidMount() {
     this.props.fetchStaffs();
+    this.props.fetchDepartments();
   }
 
   render() {
@@ -79,7 +88,12 @@ class Main extends Component {
             )}
           />
           <Route path="/staffs/:staffId" component={StaffWithId} />
-          <Route path="/departments" component={Departments} />
+          <Route
+            path="/departments"
+            component={() => (
+              <Departments departments={this.props.departments} />
+            )}
+          />
           <Route
             path="/salary"
             component={() => <Salary staffs={this.props.staffs} />}
