@@ -87,7 +87,7 @@ class Salary extends Component {
     // Nếu state là id tăng dần
     if (this.state.sort === "id uppering") {
       // Tạo mảng mới theo id tăng dần
-      const sortByIDUperring = this.props.staffs.staffs.sort(function (a, b) {
+      const sortByIDUperring = this.props.salary.salary.sort(function (a, b) {
         if (a.id < b.id) {
           return -1;
         }
@@ -97,7 +97,7 @@ class Salary extends Component {
         return 0;
       });
       // render mảng mới có id tăng dần
-      const salary = sortByIDUperring.map((staff) => {
+      const salaryList = sortByIDUperring.map((staff) => {
         return (
           <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
             <RenderSalary staff={staff} />
@@ -107,14 +107,14 @@ class Salary extends Component {
       return (
         <div className="container">
           <this.renderBreedcrum />
-          <div className="row mb-5">{salary}</div>
+          <div className="row mb-5">{salaryList}</div>
         </div>
       );
     }
     // Nếu state là id giảm dần
     else if (this.state.sort === "id lowering") {
       // tạo mảng mới theo id giảm dần
-      const sortByIDLowering = this.props.staffs.staffs.sort(function (a, b) {
+      const sortByIDLowering = this.props.salary.salary.sort(function (a, b) {
         if (a.id > b.id) {
           return -1;
         }
@@ -141,7 +141,7 @@ class Salary extends Component {
     // Nếu state là lương tăng dần
     else if (this.state.sort === "salary uppering") {
       // Tạo mảng mới theo lương tăng dần
-      const sortBySalaryUppering = this.props.staffs.staffs.sort(function (
+      const sortBySalaryUppering = this.props.salary.salary.sort(function (
         a,
         b
       ) {
@@ -171,7 +171,7 @@ class Salary extends Component {
     // Nếu state là lương giảm dần
     else if (this.state.sort === "salary lowering") {
       // Tạo mảng mới có lương giảm dần
-      const sortBySalaryLowering = this.props.staffs.staffs.sort(function (
+      const sortBySalaryLowering = this.props.salary.salary.sort(function (
         a,
         b
       ) {

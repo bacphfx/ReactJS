@@ -10,10 +10,11 @@ import Footer from "./FooterComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  addStaff,
+  postStaff,
   fetchStaffs,
   fetchDeptList,
-  fetDeptDetail,
+  fetchDeptDetail,
+  fetchSalary,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -21,11 +22,12 @@ const mapStateToProps = (state) => {
     staffs: state.staffs,
     deptList: state.deptList,
     deptDetail: state.deptDetail,
+    salary: state.salary,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addStaff: (
+  postStaff: (
     name,
     doB,
     startDate,
@@ -35,7 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
     overTime
   ) =>
     dispatch(
-      addStaff(
+      postStaff(
         name,
         doB,
         startDate,
@@ -51,6 +53,14 @@ const mapDispatchToProps = (dispatch) => ({
   fetchDeptList: () => {
     dispatch(fetchDeptList());
   },
+
+  fetchDeptDetail: (id) => {
+    dispatch(fetchDeptDetail(id));
+  },
+
+  fetchSalary: () => {
+    dispatch(fetchSalary());
+  },
 });
 
 class Main extends Component {
@@ -60,6 +70,8 @@ class Main extends Component {
   componentDidMount() {
     this.props.fetchStaffs();
     this.props.fetchDeptList();
+    this.props.fetchDeptDetail();
+    this.props.fetchSalary();
   }
 
   render() {
@@ -85,6 +97,7 @@ class Main extends Component {
             )[0]
           }
           deptDetail={this.props.deptDetail}
+          fetchDeptDetail={this.props.fetchDeptDetail}
         />
       );
     };
@@ -98,7 +111,7 @@ class Main extends Component {
             component={() => (
               <StaffList
                 staffs={this.props.staffs}
-                addStaff={this.props.addStaff}
+                postStaff={this.props.postStaff}
               />
             )}
           />
@@ -113,7 +126,7 @@ class Main extends Component {
           />
           <Route
             path="/salary"
-            component={() => <Salary staffs={this.props.staffs} />}
+            component={() => <Salary salary={this.props.salary} />}
           />
           <Redirect to="/staffs" />
         </Switch>
