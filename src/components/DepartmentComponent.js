@@ -18,10 +18,14 @@ class Departments extends Component {
       (department) => {
         return (
           <Card key={department.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <CardHeader>
-              <b>{department.name}</b>
-            </CardHeader>
-            <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
+            <Link to={`/departments/${department.id}`}>
+              <CardHeader>
+                <b>{department.name}</b>
+              </CardHeader>
+              <CardText>
+                Số lượng nhân viên: {department.numberOfStaff}
+              </CardText>
+            </Link>
           </Card>
         );
       }

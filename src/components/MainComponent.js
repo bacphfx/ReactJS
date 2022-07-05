@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import StaffList from "./StaffListComponent";
 import StaffDetail from "./StaffDetailComponent";
 import Departments from "./DepartmentComponent";
+import DepartmentDetail from "./DepartmentDetailComponents";
 import Salary from "./SalaryComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
@@ -73,6 +74,19 @@ class Main extends Component {
         />
       );
     };
+    const DepartmentWithId = ({ match }) => {
+      return (
+        <DepartmentDetail
+          department={
+            this.props.departments.departments.filter(
+              (department) => department.id == match.params.departmentId
+            )[0]
+          }
+          isLoading={this.props.departments.isLoading}
+          errMess={this.props.departments.errMess}
+        />
+      );
+    };
     return (
       <div className="container">
         <Header />
@@ -88,6 +102,10 @@ class Main extends Component {
             )}
           />
           <Route path="/staffs/:staffId" component={StaffWithId} />
+          <Route
+            path="/departments/:departmentId"
+            component={DepartmentWithId}
+          />
           <Route
             path="/departments"
             component={() => (
