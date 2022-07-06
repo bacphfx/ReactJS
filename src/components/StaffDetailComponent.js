@@ -45,7 +45,7 @@ function RenderStaffDetail({ staff }) {
 }
 
 const StaffDetail = (props) => {
-  if (props.isLoading) {
+  if (props.staffLoading) {
     return (
       <div className="container">
         <div className="row">
@@ -53,11 +53,11 @@ const StaffDetail = (props) => {
         </div>
       </div>
     );
-  } else if (props.errMess) {
+  } else if (props.staffErrMess) {
     return (
       <div className="container">
         <div className="row">
-          <h4>{props.errMess}</h4>
+          <h4>{props.staffErrMess}</h4>
         </div>
       </div>
     );

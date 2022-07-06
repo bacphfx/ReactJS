@@ -8,24 +8,38 @@ import {
 } from "reactstrap";
 
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponents";
 
-class Departments extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const deptList = this.props.deptList.deptList.map((department) => {
-      return (
-        <Card key={department.id} className="col-12 col-sm-6 col-md-4 mt-3">
-          <Link to={`/departments/${department.id}`}>
-            <CardHeader>
-              <b>{department.name}</b>
-            </CardHeader>
-            <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
-          </Link>
-        </Card>
-      );
-    });
+const Departments = (props) => {
+  const deptList = props.deptList.map((department) => {
+    return (
+      <Card key={department.id} className="col-12 col-sm-6 col-md-4 mt-3">
+        <Link to={`/departments/${department.id}`}>
+          <CardHeader>
+            <b>{department.name}</b>
+          </CardHeader>
+          <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
+        </Link>
+      </Card>
+    );
+  });
+  if (props.deptLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.deptErrMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.deptErrMess}</h4>
+        </div>
+      </div>
+    );
+  } else
     return (
       <div className="container mb-5">
         <div className="row">
@@ -42,7 +56,6 @@ class Departments extends Component {
         <div className="row">{deptList}</div>
       </div>
     );
-  }
-}
+};
 
 export default Departments;

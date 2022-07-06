@@ -76,8 +76,8 @@ class Main extends Component {
               (staff) => staff.id === parseInt(match.params.staffId, 10)
             )[0]
           }
-          isLoading={this.props.staffs.isLoading}
-          errMess={this.props.staffs.errMess}
+          staffLoading={this.props.staffs.isLoading}
+          staffErrMess={this.props.staffs.errMess}
         />
       );
     };
@@ -120,7 +120,13 @@ class Main extends Component {
           />
           <Route
             path="/departments"
-            component={() => <Departments deptList={this.props.deptList} />}
+            component={() => (
+              <Departments
+                deptList={this.props.deptList.deptList}
+                deptLoading={this.props.deptList.isLoading}
+                deptErrMess={this.props.deptList.errMess}
+              />
+            )}
           />
           <Route
             path="/salary"
