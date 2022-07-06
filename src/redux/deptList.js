@@ -5,6 +5,8 @@ export const DeptList = (
   action
 ) => {
   switch (action.type) {
+    case ActionTypes.DEPARTMENTS_LOADING:
+      return { ...state, isLoading: true, errMess: null, deptList: [] };
     case ActionTypes.ADD_DEPARTMENTS:
       return {
         ...state,

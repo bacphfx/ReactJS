@@ -9,6 +9,7 @@ import {
   Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponents";
 
 // tạo function hiển thị thông tin bảng lương của nhân nhiên
 function RenderSalary({ staff }) {
@@ -84,119 +85,131 @@ class Salary extends Component {
   }
 
   render() {
-    // Nếu state là id tăng dần
-    if (this.state.sort === "id uppering") {
-      // Tạo mảng mới theo id tăng dần
-      const sortByIDUperring = this.props.salary.salary.sort(function (a, b) {
-        if (a.id < b.id) {
-          return -1;
-        }
-        if (a.id > b.id) {
-          return 1;
-        }
-        return 0;
-      });
-      // render mảng mới có id tăng dần
-      const salaryList = sortByIDUperring.map((staff) => {
-        return (
-          <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <RenderSalary staff={staff} />
-          </div>
-        );
-      });
+    if (this.props.isLoading) {
       return (
         <div className="container">
-          <this.renderBreedcrum />
-          <div className="row mb-5">{salaryList}</div>
+          <div className="row">
+            <Loading />
+          </div>
         </div>
       );
-    }
-    // Nếu state là id giảm dần
-    else if (this.state.sort === "id lowering") {
-      // tạo mảng mới theo id giảm dần
-      const sortByIDLowering = this.props.salary.salary.sort(function (a, b) {
-        if (a.id > b.id) {
-          return -1;
-        }
-        if (a.id < b.id) {
-          return 1;
-        }
-        return 0;
-      });
-      // render mảng mới có id giảm dần
-      const salary = sortByIDLowering.map((staff) => {
-        return (
-          <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <RenderSalary staff={staff} />
-          </div>
-        );
-      });
+    } else if (this.props.errMess) {
       return (
         <div className="container">
-          <this.renderBreedcrum />
-          <div className="row mb-5">{salary}</div>
+          <div className="row">
+            <h4>{this.props.errMess}</h4>
+          </div>
         </div>
       );
-    }
-    // Nếu state là lương tăng dần
-    else if (this.state.sort === "salary uppering") {
-      // Tạo mảng mới theo lương tăng dần
-      const sortBySalaryUppering = this.props.salary.salary.sort(function (
-        a,
-        b
-      ) {
-        if (a.salaryCalc < b.salaryCalc) {
-          return -1;
-        }
-        if (a.salaryCalc > b.salaryCalc) {
-          return 1;
-        }
-        return 0;
-      });
-      // render mảng mới có lương tăng dần
-      const salary = sortBySalaryUppering.map((staff) => {
+    } else {
+      // Nếu state là id tăng dần
+      if (this.state.sort === "id uppering") {
+        // Tạo mảng mới theo id tăng dần
+        const sortByIDUperring = this.props.salary.sort(function (a, b) {
+          if (a.id < b.id) {
+            return -1;
+          }
+          if (a.id > b.id) {
+            return 1;
+          }
+          return 0;
+        });
+        // render mảng mới có id tăng dần
+        const salaryList = sortByIDUperring.map((staff) => {
+          return (
+            <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
+              <RenderSalary staff={staff} />
+            </div>
+          );
+        });
         return (
-          <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <RenderSalary staff={staff} />
+          <div className="container">
+            <this.renderBreedcrum />
+            <div className="row mb-5">{salaryList}</div>
           </div>
         );
-      });
-      return (
-        <div className="container">
-          <this.renderBreedcrum />
-          <div className="row mb-5">{salary}</div>
-        </div>
-      );
-    }
-    // Nếu state là lương giảm dần
-    else if (this.state.sort === "salary lowering") {
-      // Tạo mảng mới có lương giảm dần
-      const sortBySalaryLowering = this.props.salary.salary.sort(function (
-        a,
-        b
-      ) {
-        if (a.salaryCalc > b.salaryCalc) {
-          return -1;
-        }
-        if (a.salaryCalc < b.salaryCalc) {
-          return 1;
-        }
-        return 0;
-      });
-      // render mảng mới có lương giảm dần
-      const salary = sortBySalaryLowering.map((staff) => {
+      }
+      // Nếu state là id giảm dần
+      else if (this.state.sort === "id lowering") {
+        // tạo mảng mới theo id giảm dần
+        const sortByIDLowering = this.props.salary.sort(function (a, b) {
+          if (a.id > b.id) {
+            return -1;
+          }
+          if (a.id < b.id) {
+            return 1;
+          }
+          return 0;
+        });
+        // render mảng mới có id giảm dần
+        const salary = sortByIDLowering.map((staff) => {
+          return (
+            <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
+              <RenderSalary staff={staff} />
+            </div>
+          );
+        });
         return (
-          <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
-            <RenderSalary staff={staff} />
+          <div className="container">
+            <this.renderBreedcrum />
+            <div className="row mb-5">{salary}</div>
           </div>
         );
-      });
-      return (
-        <div className="container">
-          <this.renderBreedcrum />
-          <div className="row mb-5">{salary}</div>
-        </div>
-      );
+      }
+      // Nếu state là lương tăng dần
+      else if (this.state.sort === "salary uppering") {
+        // Tạo mảng mới theo lương tăng dần
+        const sortBySalaryUppering = this.props.salary.sort(function (a, b) {
+          if (a.salaryCalc < b.salaryCalc) {
+            return -1;
+          }
+          if (a.salaryCalc > b.salaryCalc) {
+            return 1;
+          }
+          return 0;
+        });
+        // render mảng mới có lương tăng dần
+        const salary = sortBySalaryUppering.map((staff) => {
+          return (
+            <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
+              <RenderSalary staff={staff} />
+            </div>
+          );
+        });
+        return (
+          <div className="container">
+            <this.renderBreedcrum />
+            <div className="row mb-5">{salary}</div>
+          </div>
+        );
+      }
+      // Nếu state là lương giảm dần
+      else if (this.state.sort === "salary lowering") {
+        // Tạo mảng mới có lương giảm dần
+        const sortBySalaryLowering = this.props.salary.sort(function (a, b) {
+          if (a.salaryCalc > b.salaryCalc) {
+            return -1;
+          }
+          if (a.salaryCalc < b.salaryCalc) {
+            return 1;
+          }
+          return 0;
+        });
+        // render mảng mới có lương giảm dần
+        const salary = sortBySalaryLowering.map((staff) => {
+          return (
+            <div key={staff.id} className="col-12 col-sm-6 col-md-4 mt-3">
+              <RenderSalary staff={staff} />
+            </div>
+          );
+        });
+        return (
+          <div className="container">
+            <this.renderBreedcrum />
+            <div className="row mb-5">{salary}</div>
+          </div>
+        );
+      }
     }
   }
 }

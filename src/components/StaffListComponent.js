@@ -54,7 +54,7 @@ class StaffList extends Component {
 
   // Hàm tạo nhân viên mới
   handleSubmit(values) {
-    this.props.postStaff(
+    this.props.addStaff(
       values.name,
       values.doB,
       values.startDate,
@@ -257,7 +257,7 @@ class StaffList extends Component {
   // Hàm thực hiện tìm kiếm
   handleSearch(event, searchResult) {
     event.preventDefault();
-    searchResult = this.props.staffs.staffs.filter((staff) =>
+    searchResult = this.props.staffs.filter((staff) =>
       staff.name.toLowerCase().includes(this.search.value.toLowerCase())
     );
     this.setState({ staffSearched: searchResult });
@@ -265,8 +265,24 @@ class StaffList extends Component {
 
   render() {
     // Nếu chưa thực hiện tìm kiếm
-    if (this.state.staffSearched == null) {
-      const staffList = this.props.staffs.staffs.map((staff) => {
+    if (this.props.staffsLoading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <Loading />
+          </div>
+        </div>
+      );
+    } else if (this.props.staffsErrMess) {
+      return (
+        <div className="container">
+          <div className="row">
+            <h4>{this.props.staffsErrMess}</h4>
+          </div>
+        </div>
+      );
+    } else if (this.state.staffSearched == null) {
+      const staffList = this.props.staffs.map((staff) => {
         if (this.props.staffs.isLoading) {
           return (
             <div className="container">

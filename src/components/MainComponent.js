@@ -10,10 +10,9 @@ import Footer from "./FooterComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  postStaff,
+  addStaff,
   fetchStaffs,
   fetchDeptList,
-  fetchDeptDetail,
   fetchSalary,
 } from "../redux/ActionCreators";
 
@@ -21,13 +20,12 @@ const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
     deptList: state.deptList,
-    deptDetail: state.deptDetail,
     salary: state.salary,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  postStaff: (
+  addStaff: (
     name,
     doB,
     startDate,
@@ -37,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
     overTime
   ) =>
     dispatch(
-      postStaff(
+      addStaff(
         name,
         doB,
         startDate,
@@ -54,10 +52,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchDeptList());
   },
 
-  fetchDeptDetail: (id) => {
-    dispatch(fetchDeptDetail(id));
-  },
-
   fetchSalary: () => {
     dispatch(fetchSalary());
   },
@@ -70,7 +64,6 @@ class Main extends Component {
   componentDidMount() {
     this.props.fetchStaffs();
     this.props.fetchDeptList();
-    this.props.fetchDeptDetail();
     this.props.fetchSalary();
   }
 
@@ -91,13 +84,16 @@ class Main extends Component {
     const DepartmentWithId = ({ match }) => {
       return (
         <DepartmentDetail
+          staffOfDept={this.props.staffs.staffs.filter(
+            (staff) => staff.departmentId === match.params.departmentId
+          )}
           department={
             this.props.deptList.deptList.filter(
               (department) => department.id === match.params.departmentId
             )[0]
           }
-          deptDetail={this.props.deptDetail}
-          fetchDeptDetail={this.props.fetchDeptDetail}
+          deptLoading={this.props.deptList.isLoading}
+          deptErrMess={this.props.deptList.errMess}
         />
       );
     };
@@ -110,8 +106,10 @@ class Main extends Component {
             path="/staffs"
             component={() => (
               <StaffList
-                staffs={this.props.staffs}
-                postStaff={this.props.postStaff}
+                staffs={this.props.staffs.staffs}
+                staffsLoading={this.props.staffs.isLoading}
+                staffsErrMess={this.props.staffs.errMess}
+                addStaff={this.props.addStaff}
               />
             )}
           />
@@ -126,7 +124,13 @@ class Main extends Component {
           />
           <Route
             path="/salary"
-            component={() => <Salary salary={this.props.salary} />}
+            component={() => (
+              <Salary
+                salary={this.props.salary.salary}
+                salaryLoading={this.props.salary.isLoading}
+                salaryErrMess={this.props.salary.errMess}
+              />
+            )}
           />
           <Redirect to="/staffs" />
         </Switch>
