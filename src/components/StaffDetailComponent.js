@@ -19,35 +19,58 @@ import { Loading } from "./LoadingComponents";
 class StaffDetail extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.staff);
+    const department = this.props.department.filter(
+      (dept) => dept.id === this.props.staff.departmentId
+    )[0].name;
     this.state = {
+      id: this.props.staff.id,
+      name: this.props.staff.name,
+      doB: dateFormat(this.props.staff.doB, "mm/dd/yyyy"),
+      startDate: dateFormat(this.props.staff.startDate, "mm/dd/yyyy"),
+      salaryScale: this.props.staff.salaryScale,
+      departmentId: this.props.staff.departmentId,
+      department: department,
+      annualLeave: this.props.staff.annualLeave,
+      overTime: this.props.staff.overTime,
       isModalOpen: false,
     };
     this.RenderStaffDetail = this.RenderStaffDetail.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   toggleModal() {
     this.setState({ isModalOpen: !this.state.isModalOpen });
-    console.log(this.state.isModalOpen);
+  }
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value,
+    });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    const editedStaff = {
+      id: this.state.id,
+      name: this.state.name,
+      doB: dateFormat(this.state.doB, "mm/dd/yyyy"),
+      startDate: dateFormat(this.state.startDate, "mm/dd/yyyy"),
+      salaryScale: this.state.salaryScale,
+      departmentId: this.state.departmentId,
+      department: this.state.department,
+      annualLeave: this.state.annualLeave,
+      overTime: this.state.overTime,
+    };
+
+    console.log(editedStaff);
+    this.props.patchStaff(editedStaff);
+    this.toggleModal();
   }
 
   RenderStaffDetail({ staff }) {
-    switch (staff.departmentId) {
-      case "Dept01":
-        staff.department = "Sale";
-        break;
-      case "Dept02":
-        staff.department = "HR";
-        break;
-      case "Dept03":
-        staff.department = "Marketing";
-        break;
-      case "Dept04":
-        staff.department = "IT";
-        break;
-      case "Dept05":
-        staff.department = "Finance";
-        break;
-    }
     return (
       <div className="container">
         <div className="row" key={staff.id}>
@@ -58,14 +81,11 @@ class StaffDetail extends Component {
             <h3>Họ và tên: {staff.name}</h3>
             <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
             <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-            <p>Phòng ban: {staff.department}</p>
+            <p>Phòng ban: {this.state.department}</p>
             <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
             <p>Số ngày làm thêm: {staff.overTime}</p>
             <Button onClick={this.toggleModal}>
               <span className="fa fa-pencil"></span> Edit
-            </Button>
-            <Button className="ml-2">
-              <span className="fa fa-trash"></span> Delete
             </Button>
           </div>
         </div>

@@ -27,6 +27,24 @@ export const Staffs = (
     case ActionTypes.STAFFS_FAILED:
       return { ...state, isLoading: false, errMess: action.payload };
 
+    case ActionTypes.EDIT_STAFF:
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        staffs: action.payload,
+      };
+
+    case ActionTypes.DELETE_STAFF:
+      const restStaffs = state.staffs.filter(
+        (staff) => staff.id !== action.payload
+      );
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        staffs: restStaffs,
+      };
     default:
       return state;
   }

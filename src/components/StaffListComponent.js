@@ -25,8 +25,11 @@ function RenderStaffList({ staff }) {
     <Card>
       <Link to={`/staffs/${staff.id}`}>
         <CardImg src={staff.image} />
-        <CardText className="text-center">{staff.name}</CardText>
+        <CardText className=" text-center ">{staff.name}</CardText>
       </Link>
+      <Button className="ml-1">
+        <span className="fa fa-trash"></span>
+      </Button>
     </Card>
   );
 }

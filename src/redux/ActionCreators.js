@@ -1,6 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
+// post nhan vien moi len server
 export const postStaff =
   (name, doB, startDate, salaryScale, department, annualLeave, overTime) =>
   (dispatch) => {
@@ -29,9 +30,10 @@ export const postStaff =
       case "Finance":
         newStaff.departmentId = "Dept05";
         break;
+      default:
+        newStaff.departmentId = "Dept01";
     }
     newStaff.image = "/assets/images/alberto.png";
-    delete newStaff.department;
 
     return fetch(baseUrl + "staffs", {
       method: "POST",
@@ -68,6 +70,56 @@ export const postStaff =
 export const addStaff = (staff) => ({
   type: ActionTypes.ADD_STAFF,
   payload: staff,
+});
+
+// Post nhan vien sua thong tin len server
+export const patchStaff = (staff) => (dispatch) => {
+  return fetch(baseUrl + "staffs", {
+    method: "PATCH",
+    body: JSON.stringify(staff),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        var errmess = new Error(error.message);
+        throw errmess;
+      }
+    )
+    .then((response) => response.json())
+    .then((response) => dispatch(updateStaff(response)));
+};
+export const updateStaff = (staff) => ({
+  type: ActionTypes.EDIT_STAFF,
+  payload: staff,
+});
+
+// Xóa nhân viên
+export const deleteStaff = (id) => (dispatch) => {
+  return fetch(baseUrl + `staffs/${id}`, {
+    method: "DELETE",
+  }).then(() => {
+    dispatch(delStaff(id));
+    window.location = "http://localhost:3000/staffs";
+  });
+};
+
+export const delStaff = (id) => ({
+  type: ActionTypes.DELETE_STAFF,
+  payload: id,
 });
 
 // Lấy thông tin danh sách nhân viên
