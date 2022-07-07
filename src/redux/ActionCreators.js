@@ -1,25 +1,73 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-export const addStaff = (
-  name,
-  doB,
-  startDate,
-  salaryScale,
-  department,
-  annualLeave,
-  overTime
-) => ({
+export const postStaff =
+  (name, doB, startDate, salaryScale, department, annualLeave, overTime) =>
+  (dispatch) => {
+    const newStaff = {
+      name: name,
+      dob: doB,
+      startDate: startDate,
+      salaryScale: salaryScale,
+      department: department,
+      annualLeave: annualLeave,
+      overTime: overTime,
+    };
+    switch (newStaff.department) {
+      case "Sale":
+        newStaff.departmentId = "Dept01";
+        break;
+      case "HR":
+        newStaff.departmentId = "Dept02";
+        break;
+      case "IT":
+        newStaff.departmentId = "Dept03";
+        break;
+      case "Marketing":
+        newStaff.departmentId = "Dept04";
+        break;
+      case "Finance":
+        newStaff.departmentId = "Dept05";
+        break;
+    }
+    newStaff.image = "/assets/images/alberto.png";
+    delete newStaff.department;
+
+    return fetch(baseUrl + "staffs", {
+      method: "POST",
+      body: JSON.stringify(newStaff),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
+    })
+      .then(
+        (response) => {
+          if (response.ok) {
+            return response;
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            error.response = response;
+            throw error;
+          }
+        },
+        (error) => {
+          var errmess = new Error(error.message);
+          throw errmess;
+        }
+      )
+      .then((response) => response.json())
+      .then((response) => dispatch(addStaff(response)))
+      .catch((error) => {
+        console.log("Post new staff ", error.message);
+        alert("New staff could not be posted\nError: " + error.message);
+      });
+  };
+export const addStaff = (staff) => ({
   type: ActionTypes.ADD_STAFF,
-  payload: {
-    name: name,
-    dob: doB,
-    startDate: startDate,
-    salaryScale: salaryScale,
-    department: department,
-    annualLeave: annualLeave,
-    overTime: overTime,
-  },
+  payload: staff,
 });
 
 // Lấy thông tin danh sách nhân viên

@@ -10,10 +10,10 @@ import Footer from "./FooterComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  addStaff,
   fetchStaffs,
   fetchDeptList,
   fetchSalary,
+  postStaff,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
@@ -25,7 +25,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addStaff: (
+  postStaff: (
     name,
     doB,
     startDate,
@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
     overTime
   ) =>
     dispatch(
-      addStaff(
+      postStaff(
         name,
         doB,
         startDate,
@@ -109,7 +109,7 @@ class Main extends Component {
                 staffs={this.props.staffs.staffs}
                 staffsLoading={this.props.staffs.isLoading}
                 staffsErrMess={this.props.staffs.errMess}
-                addStaff={this.props.addStaff}
+                postStaff={this.props.postStaff}
               />
             )}
           />

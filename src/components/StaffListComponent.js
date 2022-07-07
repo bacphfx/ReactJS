@@ -54,7 +54,7 @@ class StaffList extends Component {
 
   // Hàm tạo nhân viên mới
   handleSubmit(values) {
-    this.props.addStaff(
+    this.props.postStaff(
       values.name,
       values.doB,
       values.startDate,
