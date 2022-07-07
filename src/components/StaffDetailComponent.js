@@ -1,5 +1,12 @@
 import React from "react";
-import { Media, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import {
+  Media,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Form,
+  Row,
+} from "reactstrap";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponents";
@@ -24,12 +31,19 @@ function RenderStaffDetail({ staff }) {
   }
   return (
     <div key={staff.id}>
-      <Media tag="li">
-        <img
-          className="col-12 col-sm-4 col-md-3"
-          src={staff.image}
-          alt={staff.name}
-        />
+      <Media className="container" tag="li">
+        <div className="col-12 col-sm-4 col-md-3">
+          <img src={staff.image} alt={staff.name} width="100%" />
+          <div className="row m-3">
+            <Button>
+              <span className="fa fa-pencil fa-sm"></span> Sửa
+            </Button>
+
+            <Button className="ml-4">
+              <span className="fa fa-trash fa-md"></span> Xóa
+            </Button>
+          </div>
+        </div>
 
         <Media body className="col-12 col-sm-8 col-md-9 ml-1">
           <Media heading>Họ và tên: {staff.name}</Media>
