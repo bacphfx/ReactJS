@@ -20,14 +20,14 @@ import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
 
 // tạo function hiển thị nhân viên
-function RenderStaffList({ staff }) {
+function RenderStaffList({ staff, deleteStaff }) {
   return (
     <Card>
       <Link to={`/staffs/${staff.id}`}>
         <CardImg src={staff.image} />
         <CardText className=" text-center ">{staff.name}</CardText>
       </Link>
-      <Button className="ml-1">
+      <Button className="ml-1" onClick={() => deleteStaff(staff.id)}>
         <span className="fa fa-trash"></span>
       </Button>
     </Card>
@@ -307,7 +307,10 @@ class StaffList extends Component {
         } else
           return (
             <div key={staff.id} className="col-6 col-sm-4 col-md-2 mt-3">
-              <RenderStaffList staff={staff} />
+              <RenderStaffList
+                staff={staff}
+                deleteStaff={this.props.deleteStaff}
+              />
             </div>
           );
       });
@@ -329,7 +332,10 @@ class StaffList extends Component {
               key={staffSearched.id}
               className="col-6 col-sm-4 col-md-2 mt-3"
             >
-              <RenderStaffList staff={staffSearched} />
+              <RenderStaffList
+                staff={staffSearched}
+                deleteStaff={this.props.deleteStaff}
+              />
             </div>
           );
         }

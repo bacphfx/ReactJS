@@ -9,10 +9,10 @@ export const postStaff =
       name: name,
       dob: doB,
       startDate: startDate,
-      salaryScale: salaryScale,
-      department: department,
-      annualLeave: annualLeave,
-      overTime: overTime,
+      salaryScale: salaryScale ? salaryScale : 1,
+      department: department ? department : "Sale",
+      annualLeave: annualLeave ? annualLeave : 0,
+      overTime: overTime ? overTime : 0,
     };
     switch (newStaff.department) {
       case "Sale":
@@ -109,12 +109,14 @@ export const updateStaff = (staff) => ({
 
 // Xóa nhân viên
 export const deleteStaff = (id) => (dispatch) => {
-  return fetch(baseUrl + `staffs/${id}`, {
-    method: "DELETE",
-  }).then(() => {
-    dispatch(delStaff(id));
-    window.location = "http://localhost:3000/staffs";
-  });
+  if (window.confirm("Are you sure?")) {
+    return fetch(baseUrl + `staffs/${id}`, {
+      method: "DELETE",
+    }).then(() => {
+      dispatch(delStaff(id));
+      // window.location = "http://localhost:3000/staffs";
+    });
+  }
 };
 
 export const delStaff = (id) => ({
