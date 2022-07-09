@@ -28,7 +28,7 @@ function RenderStaffList({ staff, deleteStaff }) {
         <CardText className=" text-center ">{staff.name}</CardText>
       </Link>
       <Button className="ml-1" onClick={() => deleteStaff(staff.id)}>
-        <span className="fa fa-trash"></span>
+        <span className="fa fa-trash"></span> Xóa
       </Button>
     </Card>
   );

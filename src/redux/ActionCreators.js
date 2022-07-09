@@ -72,7 +72,7 @@ export const addStaff = (staff) => ({
   payload: staff,
 });
 
-// Post nhan vien sua thong tin len server
+// Update thong tin nhân viên len server
 export const patchStaff = (staff) => (dispatch) => {
   return fetch(baseUrl + "staffs", {
     method: "PATCH",
@@ -114,7 +114,6 @@ export const deleteStaff = (id) => (dispatch) => {
       method: "DELETE",
     }).then(() => {
       dispatch(delStaff(id));
-      // window.location = "http://localhost:3000/staffs";
     });
   }
 };

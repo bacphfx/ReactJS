@@ -19,7 +19,6 @@ import { Loading } from "./LoadingComponents";
 class StaffDetail extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.staff);
     const department = this.props.department.filter(
       (dept) => dept.id === this.props.staff.departmentId
     )[0].name;
