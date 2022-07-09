@@ -1,27 +1,6 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-export const addStaff = (
-  name,
-  doB,
-  startDate,
-  salaryScale,
-  department,
-  annualLeave,
-  overTime
-) => ({
-  type: ActionTypes.ADD_STAFF,
-  payload: {
-    name: name,
-    dob: doB,
-    startDate: startDate,
-    salaryScale: salaryScale,
-    department: department,
-    annualLeave: annualLeave,
-    overTime: overTime,
-  },
-});
-
 // Lấy thông tin danh sách nhân viên
 export const fetchStaffs = () => (dispatch) => {
   dispatch(staffsLoading(true));

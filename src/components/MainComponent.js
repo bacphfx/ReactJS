@@ -10,7 +10,6 @@ import Footer from "./FooterComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  addStaff,
   fetchStaffs,
   fetchDeptList,
   fetchSalary,
@@ -25,26 +24,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addStaff: (
-    name,
-    doB,
-    startDate,
-    salaryScale,
-    department,
-    annualLeave,
-    overTime
-  ) =>
-    dispatch(
-      addStaff(
-        name,
-        doB,
-        startDate,
-        salaryScale,
-        department,
-        annualLeave,
-        overTime
-      )
-    ),
   fetchStaffs: () => {
     dispatch(fetchStaffs());
   },
@@ -109,7 +88,6 @@ class Main extends Component {
                 staffs={this.props.staffs.staffs}
                 staffsLoading={this.props.staffs.isLoading}
                 staffsErrMess={this.props.staffs.errMess}
-                addStaff={this.props.addStaff}
               />
             )}
           />

@@ -5,23 +5,6 @@ import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponents";
 
 function RenderStaffDetail({ staff }) {
-  switch (staff.departmentId) {
-    case "Dept01":
-      staff.department = "Sale";
-      break;
-    case "Dept02":
-      staff.department = "HR";
-      break;
-    case "Dept03":
-      staff.department = "Marketing";
-      break;
-    case "Dept04":
-      staff.department = "IT";
-      break;
-    case "Dept05":
-      staff.department = "Finance";
-      break;
-  }
   return (
     <div key={staff.id}>
       <Media tag="li">
