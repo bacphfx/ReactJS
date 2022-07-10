@@ -15,6 +15,7 @@ import {
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponents";
+import { FadeTransform } from "react-animation-components";
 
 class StaffDetail extends Component {
   constructor(props) {
@@ -72,22 +73,31 @@ class StaffDetail extends Component {
   RenderStaffDetail({ staff }) {
     return (
       <div className="container">
-        <div className="row" key={staff.id}>
-          <div className="col-12 col-sm-4 col-md-3">
-            <img src={staff.image} alt={staff.name} width="100%" />
+        <FadeTransform
+          in
+          transformProps={{
+            exitTransform: "scale(0.5) translateY(-50%)",
+          }}
+        >
+          <div className="row" key={staff.id}>
+            <div className="col-12 col-sm-4 col-md-3">
+              <img src={staff.image} alt={staff.name} width="100%" />
+            </div>
+            <div className="col-12 col-sm-8 col-md-9">
+              <h3>Họ và tên: {staff.name}</h3>
+              <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
+              <p>
+                Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
+              </p>
+              <p>Phòng ban: {this.state.department}</p>
+              <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
+              <p>Số ngày làm thêm: {staff.overTime}</p>
+              <Button onClick={this.toggleModal}>
+                <span className="fa fa-pencil"></span> Edit
+              </Button>
+            </div>
           </div>
-          <div className="col-12 col-sm-8 col-md-9">
-            <h3>Họ và tên: {staff.name}</h3>
-            <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</p>
-            <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-            <p>Phòng ban: {this.state.department}</p>
-            <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
-            <p>Số ngày làm thêm: {staff.overTime}</p>
-            <Button onClick={this.toggleModal}>
-              <span className="fa fa-pencil"></span> Edit
-            </Button>
-          </div>
-        </div>
+        </FadeTransform>
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>
             Sửa thông tin nhân viên
